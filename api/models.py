@@ -30,6 +30,9 @@ class ServiceImage(models.Model):
     service = models.ForeignKey(Service, on_delete=models.CASCADE)
     image = models.ImageField(upload_to='service_images/')
 
+    def __str__(self):
+        return f"{self.service.name} - {self.service.id}"
+
 
 
 

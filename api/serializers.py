@@ -21,14 +21,16 @@ class CategorySerializer(serializers.ModelSerializer):
 
 
 
+
+
 class ServiceImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = ServiceImage
-        fields = ['id', 'service', 'image']
+        fields = ['image']
 
 class ServiceSerializer(serializers.ModelSerializer):
+    images = ServiceImageSerializer(many=True, read_only=True)
     subcategory = serializers.SerializerMethodField()
-    images = serializers.SerializerMethodField()
 
     class Meta:
         model = Service
