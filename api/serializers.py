@@ -3,9 +3,14 @@ from .models import Category, Subcategory, Service, ServiceImage, Employee, Vaca
 
 
 class SubcategorySerializer(serializers.ModelSerializer):
+    parent_category = serializers.SerializerMethodField()
+
     class Meta:
         model = Subcategory
-        fields = ['name', 'description']
+        fields = ['name', 'parent_category', 'description']
+
+    def get_parent_category(self, obj):
+        return obj.category.name if obj.category else None
 
 class CategorySerializer(serializers.ModelSerializer):
     subcategories = serializers.SerializerMethodField()
@@ -29,20 +34,30 @@ class ServiceImageSerializer(serializers.ModelSerializer):
         fields = ['image']
 
 class ServiceSerializer(serializers.ModelSerializer):
-    images = ServiceImageSerializer(many=True, read_only=True)
     subcategory = serializers.SerializerMethodField()
 
     class Meta:
         model = Service
-        fields = ['id', 'subcategory', 'name', 'description', 'images']
+        fields = ['id', 'subcategory', 'name', 'thumbnail_image']
 
     def get_subcategory(self, obj):
         return obj.subcategory.name if obj.subcategory else None
+    
+
+class ServiceDetailSerializer(serializers.ModelSerializer):
+    images = serializers.SerializerMethodField()
+    subcategory = SubcategorySerializer()
+
+    class Meta:
+        model = Service
+        fields = ['subcategory', 'name', 'description', 'images']
 
     def get_images(self, obj):
         images = obj.images.all()
         request = self.context.get('request')
         return [request.build_absolute_uri(image.image.url) for image in images]
+
+
 
 
 class EmployeeSerializer(serializers.ModelSerializer):
@@ -56,9 +71,13 @@ class VacancySerializer(serializers.ModelSerializer):
         fields = ['id', 'position', 'description', 'image']
 
 class JobApplicationSerializer(serializers.ModelSerializer):
+    vacancy_position = serializers.SerializerMethodField()
     class Meta:
         model = JobApplication
-        fields = ['id', 'vacancy', 'name', 'phone_number', 'resume']
+        fields = ['id', 'vacancy_position', 'name', 'phone_number', 'resume']
+    
+    def get_vacancy_position(self, obj):
+        return obj.vacancy.position if obj.vacancy else None
 
 class ContactPhoneNumberSerializer(serializers.ModelSerializer):
     class Meta:

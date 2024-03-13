@@ -1,6 +1,6 @@
 from rest_framework import generics
 from .models import Category, Subcategory, Service, Employee, Vacancy, JobApplication, ContactInfo, ContactApplication, SocialMedia
-from .serializers import CategorySerializer, SubcategorySerializer, ServiceSerializer, EmployeeSerializer, VacancySerializer, JobApplicationSerializer, ContactInfoSerializer, ContactApplicationSerializer, SocialMediaSerializer
+from .serializers import CategorySerializer, ServiceDetailSerializer, SubcategorySerializer, ServiceSerializer, EmployeeSerializer, VacancySerializer, JobApplicationSerializer, ContactInfoSerializer, ContactApplicationSerializer, SocialMediaSerializer
 
 class CategoryListCreateAPIView(generics.ListCreateAPIView):
     queryset = Category.objects.all()
@@ -25,7 +25,7 @@ class ServiceListCreateAPIView(generics.ListCreateAPIView):
 
 class ServiceRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Service.objects.all()
-    serializer_class = ServiceSerializer
+    serializer_class = ServiceDetailSerializer
 
 
 

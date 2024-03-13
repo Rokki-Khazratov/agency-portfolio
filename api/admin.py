@@ -8,7 +8,7 @@ class ServiceImageInline(admin.TabularInline):
 @admin.register(Service)
 class ServiceAdmin(admin.ModelAdmin):
     inlines = [ServiceImageInline]
-    list_display = ['name', 'subcategory', 'get_category', 'description']
+    list_display = ['name', 'id','subcategory', 'get_category', 'description']
 
     def get_category(self, obj):
         return obj.subcategory.category.name
@@ -34,3 +34,4 @@ admin.site.register(Vacancy)
 admin.site.register(JobApplication)
 admin.site.register(ContactApplication)
 admin.site.register(SocialMedia)
+# admin.site.register(ServiceImageInline)
