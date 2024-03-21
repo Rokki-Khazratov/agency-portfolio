@@ -5,9 +5,6 @@ urlpatterns = [
     path('categories/', CategoryListCreateAPIView.as_view(), name='category-list'),
     path('categories/<int:pk>/', CategoryRetrieveUpdateDestroyAPIView.as_view(), name='category-detail'),
 
-    path('subcategories/', SubcategoryListCreateAPIView.as_view(), name='subcategory-list'),
-    path('subcategories/<int:pk>/', SubcategoryRetrieveUpdateDestroyAPIView.as_view(), name='subcategory-detail'),
-
     path('services/', ServiceListCreateAPIView.as_view(), name='service-list'),
     path('services/<int:pk>/', ServiceRetrieveUpdateDestroyAPIView.as_view(), name='service-detail'),
 

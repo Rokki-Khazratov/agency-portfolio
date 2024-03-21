@@ -10,13 +10,6 @@ class CategoryRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
 
-class SubcategoryListCreateAPIView(generics.ListCreateAPIView):
-    queryset = Subcategory.objects.all()
-    serializer_class = SubcategorySerializer
-
-class SubcategoryRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Subcategory.objects.all()
-    serializer_class = SubcategorySerializer
 
 
 class ServiceListCreateAPIView(generics.ListCreateAPIView):
