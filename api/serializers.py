@@ -38,7 +38,7 @@ class ServiceSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Service
-        fields = ['id', 'subcategory', 'name', 'thumbnail_image']
+        fields = ['id', 'subcategory', 'name', 'description','thumbnail_image']
 
     def get_subcategory(self, obj):
         return obj.subcategory.name if obj.subcategory else None
