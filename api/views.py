@@ -3,8 +3,18 @@ from .models import Category, Subcategory, Service, Employee, Vacancy, JobApplic
 from .serializers import CategorySerializer, ServiceDetailSerializer, SubcategorySerializer, ServiceSerializer, EmployeeSerializer, VacancySerializer, JobApplicationSerializer, ContactInfoSerializer, ContactApplicationSerializer, SocialMediaSerializer
 
 class CategoryListCreateAPIView(generics.ListCreateAPIView):
-    queryset = Category.objects.all()
+    
     serializer_class = CategorySerializer
+
+    def get_queryset(self):
+        queryset = Category.objects.all()
+        self_made = self.request.query_params.get('self_made', None)
+            
+        if self_made:
+            queryset = queryset.filter(self_made=self_made)
+
+        return queryset
+    
 
 class CategoryRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Category.objects.all()

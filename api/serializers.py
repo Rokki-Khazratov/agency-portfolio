@@ -17,7 +17,7 @@ class CategorySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Category
-        fields = ['id', 'name', 'description', 'subcategories']
+        fields = ['id', 'name', 'description', 'subcategories','self_made']
 
     def get_subcategories(self, obj):
         subcategories = Subcategory.objects.filter(category=obj)
