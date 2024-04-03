@@ -1,84 +1,98 @@
 from rest_framework import generics
+from django.http import Http404
 from .models import Category, Subcategory, Service, Employee, Vacancy, JobApplication, ContactInfo, ContactApplication, SocialMedia
 from .serializers import CategorySerializer, ServiceDetailSerializer, SubcategorySerializer, ServiceSerializer, EmployeeSerializer, VacancySerializer, JobApplicationSerializer, ContactInfoSerializer, ContactApplicationSerializer, SocialMediaSerializer
+from .permissions import IsAdminOr404
 
-class CategoryListCreateAPIView(generics.ListCreateAPIView):
-    
+class BasePermissionAPIView(generics.GenericAPIView):
+    permission_classes = [IsAdminOr404]
+
+    def list(self, request, *args, **kwargs):
+        if not request.user.is_staff:
+            raise Http404("You are not authorized to access this resource.")
+        return super().list(request, *args, **kwargs)
+
+    def retrieve(self, request, *args, **kwargs):
+        if not request.user.is_staff:
+            raise Http404("You are not authorized to access this resource.")
+        return super().retrieve(request, *args, **kwargs)
+
+    def update(self, request, *args, **kwargs):
+        if not request.user.is_staff:
+            raise Http404("You are not authorized to access this resource.")
+        return super().update(request, *args, **kwargs)
+
+    def partial_update(self, request, *args, **kwargs):
+        if not request.user.is_staff:
+            raise Http404("You are not authorized to access this resource.")
+        return super().partial_update(request, *args, **kwargs)
+
+    def destroy(self, request, *args, **kwargs):
+        if not request.user.is_staff:
+            raise Http404("You are not authorized to access this resource.")
+        return super().destroy(request, *args, **kwargs)
+
+
+class CategoryListCreateAPIView(BasePermissionAPIView, generics.ListCreateAPIView):
     serializer_class = CategorySerializer
-
-    def get_queryset(self):
-        queryset = Category.objects.all()
-        self_made = self.request.query_params.get('self_made', None)
-            
-        if self_made:
-            queryset = queryset.filter(self_made=self_made)
-
-        return queryset
-    
-
-class CategoryRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Category.objects.all()
+
+class CategoryRetrieveUpdateDestroyAPIView(BasePermissionAPIView, generics.RetrieveUpdateDestroyAPIView):
     serializer_class = CategorySerializer
+    queryset = Category.objects.all()
 
-
-
-class ServiceListCreateAPIView(generics.ListCreateAPIView):
-    queryset = Service.objects.all()
+class ServiceListCreateAPIView(BasePermissionAPIView, generics.ListCreateAPIView):
     serializer_class = ServiceSerializer
-
-class ServiceRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Service.objects.all()
+
+class ServiceRetrieveUpdateDestroyAPIView(BasePermissionAPIView, generics.RetrieveUpdateDestroyAPIView):
     serializer_class = ServiceDetailSerializer
+    queryset = Service.objects.all()
 
-
-
-
-
-class EmployeeListCreateAPIView(generics.ListCreateAPIView):
-    queryset = Employee.objects.all()
+class EmployeeListCreateAPIView(BasePermissionAPIView, generics.ListCreateAPIView):
     serializer_class = EmployeeSerializer
-
-class EmployeeRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Employee.objects.all()
+
+class EmployeeRetrieveUpdateDestroyAPIView(BasePermissionAPIView, generics.RetrieveUpdateDestroyAPIView):
     serializer_class = EmployeeSerializer
+    queryset = Employee.objects.all()
 
-class VacancyListCreateAPIView(generics.ListCreateAPIView):
-    queryset = Vacancy.objects.all()
+class VacancyListCreateAPIView(BasePermissionAPIView, generics.ListCreateAPIView):
     serializer_class = VacancySerializer
-
-class VacancyRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Vacancy.objects.all()
+
+class VacancyRetrieveUpdateDestroyAPIView(BasePermissionAPIView, generics.RetrieveUpdateDestroyAPIView):
     serializer_class = VacancySerializer
+    queryset = Vacancy.objects.all()
 
-class JobApplicationListCreateAPIView(generics.ListCreateAPIView):
-    queryset = JobApplication.objects.all()
+class JobApplicationListCreateAPIView(BasePermissionAPIView, generics.ListCreateAPIView):
     serializer_class = JobApplicationSerializer
-
-class JobApplicationRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = JobApplication.objects.all()
+
+class JobApplicationRetrieveUpdateDestroyAPIView(BasePermissionAPIView, generics.RetrieveUpdateDestroyAPIView):
     serializer_class = JobApplicationSerializer
+    queryset = JobApplication.objects.all()
 
-
-class ContactInfoListCreateAPIView(generics.ListCreateAPIView):
-    queryset = ContactInfo.objects.all()
+class ContactInfoListCreateAPIView(BasePermissionAPIView, generics.ListCreateAPIView):
     serializer_class = ContactInfoSerializer
-
-class ContactInfoRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = ContactInfo.objects.all()
+
+class ContactInfoRetrieveUpdateDestroyAPIView(BasePermissionAPIView, generics.RetrieveUpdateDestroyAPIView):
     serializer_class = ContactInfoSerializer
+    queryset = ContactInfo.objects.all()
 
-class ContactApplicationListCreateAPIView(generics.ListCreateAPIView):
-    queryset = ContactApplication.objects.all()
+class ContactApplicationListCreateAPIView(BasePermissionAPIView, generics.ListCreateAPIView):
     serializer_class = ContactApplicationSerializer
-
-class ContactApplicationRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = ContactApplication.objects.all()
+
+class ContactApplicationRetrieveUpdateDestroyAPIView(BasePermissionAPIView, generics.RetrieveUpdateDestroyAPIView):
     serializer_class = ContactApplicationSerializer
+    queryset = ContactApplication.objects.all()
 
-class SocialMediaListCreateAPIView(generics.ListCreateAPIView):
-    queryset = SocialMedia.objects.all()
+class SocialMediaListCreateAPIView(BasePermissionAPIView, generics.ListCreateAPIView):
     serializer_class = SocialMediaSerializer
+    queryset = SocialMedia.objects.all()
 
-class SocialMediaRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = SocialMedia.objects.all()
+class SocialMediaRetrieveUpdateDestroyAPIView(BasePermissionAPIView, generics.RetrieveUpdateDestroyAPIView):
     serializer_class = SocialMediaSerializer
+    queryset = SocialMedia.objects.all()
