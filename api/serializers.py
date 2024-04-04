@@ -55,7 +55,10 @@ class ServiceDetailSerializer(serializers.ModelSerializer):
     def get_images(self, obj):
         images = obj.images.all()
         request = self.context.get('request')
-        return [request.build_absolute_uri(image.image.url) for image in images]
+        image_urls = [request.build_absolute_uri(image.image.url) for image in images]
+        print("Image URLs:", image_urls)  # Print image URLs for debugging
+        return image_urls
+
 
 
 
