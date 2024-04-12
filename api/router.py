@@ -8,6 +8,8 @@ urlpatterns = [
     path('services/', ServiceListCreateAPIView.as_view(), name='service-list'),
     path('services/<int:pk>/', ServiceRetrieveUpdateDestroyAPIView.as_view(), name='service-detail'),
 
+    path('search/', ServiceListCreateAPIView.as_view(), name='search'),
+
     path('employees/', EmployeeListCreateAPIView.as_view(), name='employee-list'),
     path('employees/<int:pk>/', EmployeeRetrieveUpdateDestroyAPIView.as_view(), name='employee-detail'),
 

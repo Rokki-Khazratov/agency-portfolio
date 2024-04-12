@@ -115,12 +115,20 @@ class ServiceListCreateAPIView(generics.ListCreateAPIView):
 
     def get_queryset(self):
         subcategory_id = self.request.query_params.get('subcategory_id')
+        name = self.request.query_params.get('name')
+
+        queryset = Service.objects.all()
+
         if subcategory_id:
-            # If subcategory_id is provided in query parameters, filter services by subcategory_id
-            return Service.objects.filter(subcategory_id=subcategory_id)
-        else:
-            # If subcategory_id is not provided, return all services
-            return Service.objects.all()
+            # Filter services by subcategory_id if provided
+            queryset = queryset.filter(subcategory_id=subcategory_id)
+
+        if name:
+            # Filter services by name if name query parameter is provided
+            queryset = queryset.filter(name__icontains=name)
+
+        return queryset
+
 
 class ServiceRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = ServiceDetailSerializer
